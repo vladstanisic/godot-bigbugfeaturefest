@@ -1,0 +1,34 @@
+~ startMain
+System: Engage Dialogue Test
+- Let's do it!
+
+	~ start01
+	Vlad: [wave][[Yo|Heyoo|Howdy|Sup]], let's test some dialogue shall we?[/wave]
+	~ choices
+	Vlad: What is your favorite food?
+	- "Cheese"
+		Vlad: Cheese huh?[wait=0.5] [[Best answer.|Finally someone gets it.|Big fan myself.]]
+	- "Anything but cheese"
+		Vlad: Damn.[wait=0.5] [[Its like you're [speed=0.1]trying [/speed=0.1]to hurt my feelings.|You suck.|I think we should talk to other people.]]
+	- Start again => start01
+	- End the conversation => end
+
+	Vlad: What is your favorite drink?
+	- "Water"
+		Vlad: haha yeah [wave]classic drink[/wave], big fan
+	- "Doctor Pepper"
+		Vlad: YUCK! G[speed=0.2]RRRR[/speed=0.2]OSS!
+
+	Vlad: Let's try a snippet now!
+	=>< snippet
+	Vlad: Ok, now we're back to the state before the snippet => end
+
+	~ snippet
+	Vlad: This text is within a snippet.
+	Vlad: Pretty fun, but let's jump back now!
+	=> END
+
+
+	~ end
+	Vlad: Well, this has been a productive day. Cyaaaaaa! => startMain
+
