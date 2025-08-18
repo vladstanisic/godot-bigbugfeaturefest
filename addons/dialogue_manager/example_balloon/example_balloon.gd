@@ -22,6 +22,8 @@ var will_hide_balloon: bool = false
 ## A dictionary to store any ephemeral variables
 var locals: Dictionary = {}
 
+var dialogueBool = false
+
 var _locale: String = TranslationServer.get_locale()
 
 ## The current line
@@ -172,5 +174,7 @@ func _on_balloon_gui_input(event: InputEvent) -> void:
 func _on_responses_menu_response_selected(response: DialogueResponse) -> void:
 	next(response.next_id)
 
+func setBoolToTrue() -> void:
+	dialogueBool = true
 
 #endregion

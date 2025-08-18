@@ -1,7 +1,11 @@
 ~ startMain
 System: Engage Dialogue Test
-- Let's do it!
-
+- Begin
+- Quit 
+	=> END!
+	
+if not GameState.have_talked:
+	set GameState.have_talked = true
 	~ start01
 	Vlad: [wave][[Yo|Heyoo|Howdy|Sup]], let's test some dialogue shall we?[/wave]
 	~ choices
@@ -10,8 +14,7 @@ System: Engage Dialogue Test
 		Vlad: Cheese huh?[wait=0.5] [[Best answer.|Finally someone gets it.|Big fan myself.]]
 	- "Anything but cheese"
 		Vlad: Damn.[wait=0.5] [[Its like you're [speed=0.1]trying [/speed=0.1]to hurt my feelings.|You suck.|I think we should talk to other people.]]
-	- Start again => start01
-	- End the conversation => end
+
 
 	Vlad: What is your favorite drink?
 	- "Water"
@@ -28,7 +31,21 @@ System: Engage Dialogue Test
 	Vlad: Pretty fun, but let's jump back now!
 	=> END
 
-
 	~ end
-	Vlad: Well, this has been a productive day. Cyaaaaaa! => startMain
+	Vlad: Well, this has been a productive day. Byeeeee! => startMain
 
+
+else
+	Vlad: Oh, you're here again? [wave]Alright, I can do some more yappin![/wave]
+	Vlad: What's your favorite color?
+	- "Blue"
+		Vlad: Interesting, I'm more of a Phtelhu Green type of guy myself
+	- "Green"
+		Vlad: That's rad, green is sick
+	- "Yellow"
+		Vlad: Used to be pretty addicted to yellow when I was a kid, mostly due to Pikachu being a thing.
+		
+	Vlad: Well that was neat, I'm booting off now
+	set GameState.have_talked = false
+	=> startMain
+	
