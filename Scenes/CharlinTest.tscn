@@ -1,3 +1,8 @@
-[gd_scene load_steps=0 format=3 uid="uid://dg6h3oepy472v"]
+[gd_scene load_steps=2 format=3 uid="uid://dg6h3oepy472v"]
+
+[ext_resource type="PackedScene" uid="uid://cjpgpg6nwqy7b" path="res://Assets/Character/character_02.glb" id="1_34nok"]
 
 [node name="CharlinTest" type="Node3D"]
+
+[node name="character_02" parent="." instance=ExtResource("1_34nok")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0545261, 0, -0.0241179)
