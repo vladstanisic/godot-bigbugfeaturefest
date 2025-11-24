@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cnm67htuohhlo"
-path="res://.godot/imported/banner.png-7e9e6a304eef850602c8d5afb80df9c3.ctex"
+uid="uid://g8yipj656bso"
+path="res://.godot/imported/Fat Rat.jpg-dd018fe6d0eb61b72cf3c1015298a4ed.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/dialogue_manager/assets/banner.png"
-dest_files=["res://.godot/imported/banner.png-7e9e6a304eef850602c8d5afb80df9c3.ctex"]
+source_file="res://Images/Fat Rat.jpg"
+dest_files=["res://.godot/imported/Fat Rat.jpg-dd018fe6d0eb61b72cf3c1015298a4ed.ctex"]
 
 [params]
 
