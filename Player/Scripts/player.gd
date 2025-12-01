@@ -1,52 +1,94 @@
 class_name Player extends CharacterBody2D
 
+#region /// export variables
+@export var move_speed : float = 150
+@export var jump_strength : float = 100
+
+#endregion
+
+
+#region /// State Machine Variables
+var states : Array[ PlayerState ]
+var current_state : PlayerState : 
+	get : return states.front()
+var previous_state : PlayerState :
+	get : return states[ 1 ]
+#endregion
+
+#region /// standard variables
+var direction : Vector2 = Vector2.ZERO
+var gravity : float = 980
+#endregion
+
+
+
+func _ready() -> void:
+	initialize_states()
+	pass
+
+func _unhandled_input(event: InputEvent) -> void:
+	change_state( current_state.handle_input(event) )
+	pass
 
 func _process(_delta: float) -> void:
+	update_direction()
+	change_state( current_state.process(_delta) )
 	
 	pass
 
 
 func _physics_process(_delta: float) -> void:
-	velocity.x = 0
-	if Input.is_action_pressed("left"):
-		velocity.x = -100
-	elif Input.is_action_pressed("right"):
-		velocity.x = 100
-	
-	velocity.y = velocity.y + 980 * _delta 
+	velocity.y += gravity * _delta
 	move_and_slide()
+	change_state( current_state.physics_process(_delta) )
 	pass
 
 
+func initialize_states() -> void:
+	states = []
+	for c in $States.get_children():
+		if c is PlayerState:
+			states.append( c )
+			c.player = self
+		pass
+
+	if states.size() == 0:
+		return
 
 
+	#initialize all states
+	for state in states:
+		state.init()
+		
+	change_state( current_state )
+	current_state.enter()
+	$Label.text = current_state.name
+	
+	#set our first state
+	pass
 
 
-
-#region Pre-Generated movement script from Godot
-#extends CharacterBody2D
-#
-#
-#const SPEED = 300.0
-#const JUMP_VELOCITY = -400.0
-#
-#
-#func _physics_process(delta: float) -> void:
-	## Add the gravity.
-	#if not is_on_floor():
-		#velocity += get_gravity() * delta
-#
-	## Handle jump.
-	#if Input.is_action_just_pressed("jump") and is_on_floor():
-		#velocity.y = JUMP_VELOCITY
-#
-	## Get the input direction and handle the movement/deceleration.
-	## As good practice, you should replace UI actions with custom gameplay actions.
-	#var direction := Input.get_axis("left", "right")
-	#if direction:
-		#velocity.x = direction * SPEED
-	#else:
-		#velocity.x = move_toward(velocity.x, 0, SPEED)
-#
-	#move_and_slide()
-#endregion
+func change_state( new_state : PlayerState ) -> void:
+	if new_state == null:
+		return
+	elif new_state == current_state:
+		return
+	
+	if current_state:
+		current_state.exit()
+		
+	states.push_front(new_state)
+	current_state.enter()
+	states.resize( 3 )
+	$Label.text = current_state.name
+	
+	pass
+	
+func update_direction() -> void:
+	#var prev_direction : Vector2 = direction
+	
+	var x_axis = Input.get_axis("left", "right")
+	var y_axis = Input.get_axis("up", "down")
+	direction = Vector2(x_axis, y_axis)
+	
+	pass

@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Godot-BigBugFeatureFest"
-run/main_scene="uid://13s5spsk34qu"
+run/main_scene="uid://dkw4ec85xdmra"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="uid://g8yipj656bso"
 
