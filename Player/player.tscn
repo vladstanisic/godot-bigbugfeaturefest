@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://ckhn4u15ky24c"]
+[gd_scene load_steps=16 format=3 uid="uid://ckhn4u15ky24c"]
 
 [ext_resource type="Script" uid="uid://dm8kiipelvk6j" path="res://Player/Scripts/player.gd" id="1_l8h54"]
 [ext_resource type="Script" uid="uid://cek632i4cq6rw" path="res://Player/States/idle.gd" id="2_4ntmi"]
@@ -6,17 +6,104 @@
 [ext_resource type="Script" uid="uid://bv6wu2tv0ifd3" path="res://Player/States/crouch.gd" id="3_fhl08"]
 [ext_resource type="Script" uid="uid://bvvorgee6p02l" path="res://Player/States/jump.gd" id="4_gwnis"]
 [ext_resource type="Script" uid="uid://nylj06geoj0a" path="res://Player/States/fall.gd" id="5_k53q1"]
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_hvfyp"]
-size = Vector2(18, 48)
+[ext_resource type="Texture2D" uid="uid://dho2yi0151kvl" path="res://Assets/Character/sprites/Character_01_animation.png" id="7_vtle1"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_l8h54"]
-radius = 9.0
-height = 47.0
+radius = 5.0
+height = 14.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fhl08"]
-radius = 9.0
-height = 24.0
+radius = 5.0
+height = 12.0
+
+[sub_resource type="Animation" id="Animation_vtle1"]
+resource_name = "idle"
+length = 0.8
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="Animation" id="Animation_od3ui"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_00tjw"]
+resource_name = "run"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="Animation" id="Animation_x3vf3"]
+resource_name = "crouch"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [7]
+}
+
+[sub_resource type="Animation" id="Animation_apopc"]
+resource_name = "jump"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5htga"]
+_data = {
+&"RESET": SubResource("Animation_od3ui"),
+&"crouch": SubResource("Animation_x3vf3"),
+&"idle": SubResource("Animation_vtle1"),
+&"jump": SubResource("Animation_apopc"),
+&"run": SubResource("Animation_00tjw")
+}
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 0
@@ -46,16 +133,17 @@ unique_name_in_owner = true
 script = ExtResource("5_k53q1")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, -24)
-texture = SubResource("PlaceholderTexture2D_hvfyp")
+position = Vector2(0, -11)
+texture = ExtResource("7_vtle1")
+hframes = 9
 
 [node name="CollisionStand" type="CollisionShape2D" parent="."]
-position = Vector2(0, -23.5)
+position = Vector2(0, -7)
 shape = SubResource("CapsuleShape2D_l8h54")
 debug_color = Color(0, 0.6, 0.69803923, 0.28627452)
 
 [node name="CollisionCrouch" type="CollisionShape2D" parent="."]
-position = Vector2(0, -12)
+position = Vector2(0, -6)
 shape = SubResource("CapsuleShape2D_fhl08")
 disabled = true
 debug_color = Color(0, 0.6, 0.69803923, 0.28627452)
@@ -72,3 +160,9 @@ horizontal_alignment = 1
 [node name="OneWayPlatformRaycast" type="RayCast2D" parent="."]
 target_position = Vector2(0, 4)
 collision_mask = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_5htga")
+}
+autoplay = "idle"
