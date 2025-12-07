@@ -3,6 +3,7 @@ class_name Player extends CharacterBody2D
 #Reference to a separate scene that contains the actual indicator
 const DEBUG_JUMP_INDICATOR = preload("uid://8ujwm3bfimf0")
 
+
 #region /// on ready variables
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var collision_stand: CollisionShape2D = $CollisionStand
