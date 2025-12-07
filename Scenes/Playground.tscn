@@ -1,6 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://dkw4ec85xdmra"]
+[gd_scene load_steps=8 format=3 uid="uid://dkw4ec85xdmra"]
 
 [ext_resource type="PackedScene" uid="uid://ckhn4u15ky24c" path="res://Player/player.tscn" id="1_iualk"]
+
+[sub_resource type="Gradient" id="Gradient_iualk"]
+colors = PackedColorArray(0.13725491, 0.4862745, 0.49019608, 1, 0, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_exwnq"]
+gradient = SubResource("Gradient_iualk")
+fill_to = Vector2(0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_exwnq"]
+size = Vector2(64, 64)
 
 [sub_resource type="Gradient" id="Gradient_862t2"]
 colors = PackedColorArray(0, 0, 0, 1, 0.012617188, 0.012617188, 0.012617188, 1)
@@ -14,6 +24,19 @@ height = 32
 size = Vector2(32, 32)
 
 [node name="Playground" type="Node2D"]
+
+[node name="OneWayPlatform" type="Sprite2D" parent="."]
+position = Vector2(237, 161)
+scale = Vector2(2.5199988, 0.2654819)
+texture = SubResource("GradientTexture2D_exwnq")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="OneWayPlatform"]
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OneWayPlatform/StaticBody2D"]
+shape = SubResource("RectangleShape2D_exwnq")
+one_way_collision = true
 
 [node name="Player" parent="." instance=ExtResource("1_iualk")]
 position = Vector2(240, 65)
@@ -58,7 +81,7 @@ shape = SubResource("RectangleShape2D_iualk")
 metadata/_edit_lock_ = true
 
 [node name="Sprite2D4" type="Sprite2D" parent="Sprites"]
-position = Vector2(367, 215)
+position = Vector2(412, 215)
 scale = Vector2(2, 2)
 texture = SubResource("GradientTexture2D_xtv6o")
 metadata/_edit_group_ = true

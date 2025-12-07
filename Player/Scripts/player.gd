@@ -1,8 +1,19 @@
 class_name Player extends CharacterBody2D
 
+#Reference to a separate scene that contains the actual indicator
+const DEBUG_JUMP_INDICATOR = preload("uid://8ujwm3bfimf0")
+
+#region /// on ready variables
+@onready var sprite: Sprite2D = $Sprite2D
+@onready var collision_stand: CollisionShape2D = $CollisionStand
+@onready var collision_crouch: CollisionShape2D = $CollisionCrouch
+@onready var one_way_platform_raycast: RayCast2D = $OneWayPlatformRaycast
+#endregion
+
+
 #region /// export variables
 @export var move_speed : float = 150
-@export var jump_strength : float = 100
+@export var jump_height : float = 100
 
 #endregion
 
@@ -18,6 +29,7 @@ var previous_state : PlayerState :
 #region /// standard variables
 var direction : Vector2 = Vector2.ZERO
 var gravity : float = 980
+var gravity_multiplier : float = 0.0
 #endregion
 
 
@@ -38,7 +50,7 @@ func _process(_delta: float) -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	velocity.y += gravity * _delta
+	velocity.y += gravity * _delta * gravity_multiplier
 	move_and_slide()
 	change_state( current_state.physics_process(_delta) )
 	pass
@@ -91,4 +103,19 @@ func update_direction() -> void:
 	var y_axis = Input.get_axis("up", "down")
 	direction = Vector2(x_axis, y_axis)
 	
+	pass
+
+# This function instantiates the Debug Jump Indicator scene and places it
+# by the players global position
+func jump_indicator( color : Color = Color.RED ) -> void:
+	var d : Node2D = DEBUG_JUMP_INDICATOR.instantiate()
+	get_tree().root.add_child( d )
+	
+	# Change the color to red
+	d.global_position = global_position
+	d.modulate = color
+	
+	# Creates a 3s timer that deletes the d-variable after its done
+	await get_tree().create_timer(3.0).timeout
+	d.queue_free()
 	pass
