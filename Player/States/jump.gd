@@ -11,6 +11,8 @@ func init() -> void:
 
 # What happens when we enter this state
 func enter() -> void:
+	player.animation_player.play( "jump" )
+	
 	player.jump_indicator(Color.LIME_GREEN)
 	player.velocity.y = -jump_velocity
 	
