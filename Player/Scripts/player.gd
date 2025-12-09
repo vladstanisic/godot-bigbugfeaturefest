@@ -2,6 +2,7 @@ class_name Player extends CharacterBody2D
 
 #Reference to a separate scene that contains the actual indicator
 const DEBUG_JUMP_INDICATOR = preload("uid://8ujwm3bfimf0")
+var debug_enabled = false
 
 #region /// on ready variables
 @onready var sprite: Sprite2D = $Sprite2D
@@ -9,6 +10,7 @@ const DEBUG_JUMP_INDICATOR = preload("uid://8ujwm3bfimf0")
 @onready var collision_crouch: CollisionShape2D = $CollisionCrouch
 @onready var one_way_platform_raycast: RayCast2D = $OneWayPlatformRaycast
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var label: Label = $Label
 #endregion
 
 
@@ -37,7 +39,13 @@ var gravity_multiplier : float = 0.0
 
 func _ready() -> void:
 	initialize_states()
+	label.visible = false
+
 	pass
+	
+func _toggle_child():
+	return
+	
 
 func _unhandled_input(event: InputEvent) -> void:
 	change_state( current_state.handle_input(event) )
@@ -114,14 +122,20 @@ func update_direction() -> void:
 # This function instantiates the Debug Jump Indicator scene and places it
 # by the players global position
 func jump_indicator( color : Color = Color.RED ) -> void:
-	var d : Node2D = DEBUG_JUMP_INDICATOR.instantiate()
-	get_tree().root.add_child( d )
+	if debug_enabled:
+		var debug_instance : Node2D = null
+		debug_instance = DEBUG_JUMP_INDICATOR.instantiate()
+		get_tree().root.add_child( debug_instance )
+
+		
+		# Change the color to red
+		debug_instance.global_position = global_position
+		debug_instance.modulate = color
+		
+		# Creates a 3s timer that deletes the d-variable after its done
+
+		await get_tree().create_timer(3.0).timeout
+		debug_instance.queue_free()
 	
-	# Change the color to red
-	d.global_position = global_position
-	d.modulate = color
-	
-	# Creates a 3s timer that deletes the d-variable after its done
-	await get_tree().create_timer(3.0).timeout
-	d.queue_free()
 	pass
+	

@@ -1,5 +1,7 @@
 class_name PlayerStateIdle extends PlayerState
 
+
+
 # What happens when this state is initialized?
 func init() -> void:
 	pass
@@ -22,7 +24,10 @@ func exit() -> void:
 func handle_input( _event : InputEvent ) -> PlayerState:
 	if (_event.is_action_pressed( "jump" )):
 		return jump
-	
+	elif (_event.is_action_pressed( "hide" )):
+		player.label.visible = !player.label.visible
+		player.debug_enabled = !player.debug_enabled
+
 	return next_state
 		
 func process(_delta: float) -> PlayerState:
