@@ -8,7 +8,7 @@ var debug_enabled = false
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var collision_stand: CollisionShape2D = $CollisionStand
 @onready var collision_crouch: CollisionShape2D = $CollisionCrouch
-@onready var one_way_platform_raycast: RayCast2D = $OneWayPlatformRaycast
+@onready var one_way_platform_shapecast: ShapeCast2D = $OneWayPlatformShapecast
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var label: Label = $Label
 #endregion
@@ -115,7 +115,7 @@ func update_direction() -> void:
 	if prev_direction.x != direction.x:
 		if direction.x > 0:
 			sprite.flip_h = true
-		if direction.x < 0:
+		elif direction.x < 0:
 			sprite.flip_h = false
 	pass
 

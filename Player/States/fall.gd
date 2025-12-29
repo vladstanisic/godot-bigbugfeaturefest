@@ -23,6 +23,7 @@ func enter() -> void:
 		coyote_timer = coyote_time
 	
 	# Play animation
+	player.animation_player.play("fall")
 	pass
 	
 	
